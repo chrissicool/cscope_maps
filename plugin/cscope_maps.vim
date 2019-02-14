@@ -111,7 +111,9 @@ function! s:Cscope_maps_find()
     let l:modifiers = ":p:h"
     let b:cscope_path = fnameescape(expand("%" . l:modifiers))
 
-    while b:cscope_path != "/"
+    " When using expand() with more ':h' modifiers than path components,
+    " paths that do not start with a '/' will be expanded to '.'.
+    while b:cscope_path != "/" && b:cscope_path != "."
         call s:Cscope_maps_debug(3, "Trying: " . b:cscope_path)
         if filereadable(b:cscope_path . "/cscope.out")
             call s:Cscope_maps_setdb(b:cscope_path)
